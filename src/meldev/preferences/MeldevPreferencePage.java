@@ -53,7 +53,9 @@ public class MeldevPreferencePage
 		addField(
 				new ColorFieldEditor(PreferenceConstants.P_SYNTAXCOLOR_VARIABLE, "Variables", getFieldEditorParent()));
 		addField(
-				new IntegerFieldEditor(PreferenceConstants.P_COMMANDPORT_PORT, "Maya Command Port", getFieldEditorParent()));
+				new IntegerFieldEditor(PreferenceConstants.P_COMMANDPORT_PORT, "Maya Command Port Number", getFieldEditorParent()));
+		addField(
+				new StringFieldEditor(PreferenceConstants.P_COMMANDPORT_HOST, "Maya Command Port Host", getFieldEditorParent()));
 		
 	}
 

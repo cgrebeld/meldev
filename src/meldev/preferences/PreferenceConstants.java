@@ -6,6 +6,7 @@ package meldev.preferences;
 public class PreferenceConstants {
 
 	public static String P_COMMANDPORT_PORT = "commandPortPortPref";
+	public static String P_COMMANDPORT_HOST = "commandPortHostPref";
 	public static String P_SYNTAXCOLOR_STRING = "syntaxColorStringPref";
 	public static String P_SYNTAXCOLOR_DEFAULT = "syntaxColorDefaultPref";
 	public static String P_SYNTAXCOLOR_KEYWORD = "syntaxColorKeywordPref";

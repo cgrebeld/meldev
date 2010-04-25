@@ -7,6 +7,7 @@ FEATURES
 - auto-edit: autoindent on open brace CR
 - naive completion based on open buffers
 - 'send to maya' context menu item: over (TCP) commandPort
+- Outline view of proc and variable definitions
 
 TODO
 

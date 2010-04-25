@@ -42,6 +42,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 				IMelSyntaxColors.VARIABLE);
 		store.setDefault(
 				PreferenceConstants.P_COMMANDPORT_PORT,
-				65001);
+				50007);
+		store.setDefault(
+				PreferenceConstants.P_COMMANDPORT_HOST,
+				"localhost");
+
 	}
 }
