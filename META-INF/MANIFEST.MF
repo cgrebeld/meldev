@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Meldev
+Bundle-SymbolicName: meldev; singleton:=true
+Bundle-Version: 0.0.2
+Bundle-Activator: meldev.Activator
+Bundle-Vendor: Grebeldev
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.views;bundle-version="3.4.1"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.jdt.core.dom

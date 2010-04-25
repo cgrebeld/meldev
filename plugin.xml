@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Mel Editor"
+            extensions="mel"
+            icon="icons/mel.png"
+            contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor"
+            class="meldev.editors.MelEditor"
+            id="meldev.editors.MELEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="meldev.preferences.MeldevPreferencePage"
+            id="meldev.preferences.MeldevPreferencePage"
+            name="Meldev">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="meldev.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="meldev"
+            name="Meldev">
+      </category>
+      <view
+            category="meldev"
+            class="meldev.views.MelView"
+            icon="icons/mel.png"
+            id="meldev.views.MelView"
+            name="Mel Explorer">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+         <viewerContribution 
+      		id="meldev.views.popup.editor"
+   			targetID="#TextEditorContext"> 
+   			<action
+         		id="meldev.views.sendToMayaAction" 
+         label="Send to Maya"
+         icon="icons/mel.png"
+      menubarPath="additions" 
+      class="meldev.views.EditorSendToMayaDelegate"> 
+      </action> 
+   </viewerContribution> 
+
+   </extension>
+
+</plugin>
