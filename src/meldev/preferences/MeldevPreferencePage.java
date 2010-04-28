@@ -26,7 +26,7 @@ public class MeldevPreferencePage
 	public MeldevPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Meldev Preferences");
+		setDescription("Syntax Color and Misc. Preferences");
 	}
 	
 	/**
