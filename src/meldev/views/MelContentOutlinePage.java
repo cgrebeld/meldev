@@ -20,8 +20,10 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 public class MelContentOutlinePage extends ContentOutlinePage implements ITagsChangeListener {
-	private static Image fsMethodImage;
-	private static Image fsVarImage;
+	private static Image fsLocalVarImage;
+	private static Image fsGlobalVarImage;
+	private static Image fsLocalProcImage;
+	private static Image fsGlobalProcImage;
 	private IEditorInput fInput;
 	private IDocumentProvider fDocumentProvider;
 	private MelEditor fEditor;
@@ -55,8 +57,10 @@ public class MelContentOutlinePage extends ContentOutlinePage implements ITagsCh
 
 	
 	static {
-		fsMethodImage = Activator.getImageDescriptor("/icons/method.png").createImage();
-		fsVarImage = Activator.getImageDescriptor("/icons/variable.png").createImage();
+		fsLocalVarImage = Activator.getImageDescriptor("/icons/localvar.png").createImage();
+		fsGlobalVarImage = Activator.getImageDescriptor("/icons/globalvar.png").createImage();
+		fsLocalProcImage = Activator.getImageDescriptor("/icons/localproc.png").createImage();
+		fsGlobalProcImage = Activator.getImageDescriptor("/icons/globalproc.png").createImage();
 	}
 
 	class MelTagLabelProvider extends LabelProvider {
@@ -66,9 +70,15 @@ public class MelContentOutlinePage extends ContentOutlinePage implements ITagsCh
 			if (elem.getClass().equals(MelTag.class)) {
 				MelTag tag = (MelTag)elem;
 				if (tag.type == MelTag.Type.kProcDef) {
-					img = fsMethodImage;
+					if (tag.isGlobal)
+						img = fsGlobalProcImage;
+					else
+						img = fsLocalProcImage;
 				} else if (tag.type == MelTag.Type.kVarDef) {
-					img = fsVarImage;
+					if (tag.isGlobal)
+						img = fsGlobalVarImage;
+					else
+						img = fsLocalVarImage;
 				}
 			}
 			return img;
