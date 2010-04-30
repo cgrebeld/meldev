@@ -27,7 +27,8 @@ public class MelProjectFiles {
 						reslist.add(member);
 					}
 				} else if (res instanceof IFile) {
-					if (res.getFileExtension() == "mel") {
+					//System.err.print(res.getName() + "\n");
+					if (res.getFileExtension().equals("mel")) {
 						files.add((IFile)res);
 					}
 				}

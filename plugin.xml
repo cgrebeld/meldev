@@ -58,9 +58,24 @@
          icon="icons/mel.png"
       menubarPath="additions" 
       class="meldev.views.EditorSendToMayaDelegate"> 
+      </action>
+      <action
+            class="meldev.views.EditorFindReferencesDelegate"
+            icon="icons/mel.png"
+            id="meldev.views.referencesAction"
+            label="Find References"
+            menubarPath="additions">
       </action> 
    </viewerContribution> 
 
+   </extension>
+   <extension
+         point="org.eclipse.search.searchPages">
+      <page
+            class="meldev.SearchPage1"
+            id="meldev.page1"
+            label="label">
+      </page>
    </extension>
 
 </plugin>
