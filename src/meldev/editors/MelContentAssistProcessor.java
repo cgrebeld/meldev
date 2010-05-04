@@ -68,7 +68,7 @@ public class MelContentAssistProcessor implements
 			prefix = getPrefix(viewer, offset);
 			if (prefix == null || prefix.length() == 0)
 				return NO_PROPOSALS;
-			getCommandProposals(prefix, offset, allprops);
+			getCommandProposals(prefix, offset - prefix.length(), allprops);
 		} catch (BadLocationException e) {
 			return NO_PROPOSALS;
 		}

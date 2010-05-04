@@ -59,8 +59,9 @@ public class Trie {
 			}
 			Iterator<Entry<Character, Node>> it = fChildren.entrySet().iterator();
 			while (it.hasNext()) {
+				// Get the completed words from each child recursively
 				Entry<Character, Node> n = it.next();
-				getPaths(wordSoFar + n.getKey(), result);
+				n.getValue().getPaths(wordSoFar + n.getKey(), result);
 			}
 		}
 		
@@ -73,11 +74,12 @@ public class Trie {
 		fHead = new Node(false);
 	}
 	
+	//! Add a word to the trie
 	public void addWord(String s) {
 		fHead.addWord(s);
 	}
 	
-	//! Find a word in the Trie and return the terminated Node
+	//! Find a word in the Trie and return the Node for the last character
 	public Node find(String word) {
 		if (word.length() > 0) {
 			Node n = fHead;
@@ -86,7 +88,7 @@ public class Trie {
 				Node np = n.fChildren.get(word.charAt(i));
 				n = np;
 			}
-			if ((n != null) && (i == word.length()) && n.isTerminated()) {
+			if (n != null && i == word.length()) {
 				return n;
 			}
 		}
