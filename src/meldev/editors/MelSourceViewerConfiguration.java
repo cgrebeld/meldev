@@ -87,8 +87,7 @@ public class MelSourceViewerConfiguration extends TextSourceViewerConfiguration 
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant assistant = new ContentAssistant();
-//		assistant.setContentAssistProcessor(new MelCompletionProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
-		assistant.setContentAssistProcessor(new HippieProposalProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
+		assistant.setContentAssistProcessor(new MelContentAssistProcessor(), IDocument.DEFAULT_CONTENT_TYPE);
 		return assistant;
 	}
 
