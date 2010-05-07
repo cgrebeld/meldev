@@ -46,6 +46,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(
 				PreferenceConstants.P_COMMANDPORT_HOST,
 				"localhost");
-
+		store.setDefault(
+				PreferenceConstants.P_TAGSFILE_PATH,
+				"");
 	}
 }

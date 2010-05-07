@@ -6,9 +6,17 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class Trie {
-	
+	public class Word {
+		public Word(String word, Object data) {
+			fData = data;
+			fWord = word;
+		}
+		public String fWord;
+		public Object fData;
+	}
 	public class Node {
 		private boolean fIsTerm;
+		private Object fData;
 		
 		public Node(boolean isterm) {
 			fIsTerm = isterm;
@@ -20,13 +28,19 @@ public class Trie {
 		public void setTerminated(boolean isterm) {
 			fIsTerm = isterm;
 		}
+		public Object getData() {
+			return fData;
+		}
+		public void setData(Object data) {
+			fData = data;
+		}
 		public Node addChild(Character c, boolean isterm) {
 			Node n = new Node(isterm);
 			fChildren.put(c, n);
 			return n;
 		}
 		//! Add the string starting from this node
-		public void addWord(String s) {
+		public void addWord(String s, Object data) {
 			if (s.length() > 0) {
 				Node n = this;
 				int i = 0;
@@ -45,17 +59,18 @@ public class Trie {
 				if (null != np) {
 					np.setTerminated(true);
 				} else {
-					n.addChild(s.charAt(i), true);
+					np = n.addChild(s.charAt(i), true);
 				}
+				np.setData(data);
 			} 
 		}
 		
 		//! Get all the paths from here to terminators.
-		public void getPaths(String wordSoFar, ArrayList<String> result) {
+		public void getPaths(String wordSoFar, ArrayList<Word> result) {
 			if (isTerminated()) {
 				// i am terminated.  That means the wordSoFar is in fact a word
 				// so add it to result.  All future words are prefixed by it.
-				result.add(wordSoFar);
+				result.add(new Word(wordSoFar, fData));
 			}
 			Iterator<Entry<Character, Node>> it = fChildren.entrySet().iterator();
 			while (it.hasNext()) {
@@ -75,8 +90,12 @@ public class Trie {
 	}
 	
 	//! Add a word to the trie
-	public void addWord(String s) {
-		fHead.addWord(s);
+	public void addWord(Word word) {
+		fHead.addWord(word.fWord, word.fData);
+	}
+	
+	public void addWord(String word, Object data) {
+		fHead.addWord(word, data);
 	}
 	
 	//! Find a word in the Trie and return the Node for the last character
@@ -96,8 +115,8 @@ public class Trie {
 	}
 	
 	//! Get all the words in the trie which start with the given prefix
-	public ArrayList<String> getCompletions(String prefix) {
-		ArrayList<String> result = new ArrayList<String>();
+	public ArrayList<Word> getCompletions(String prefix) {
+		ArrayList<Word> result = new ArrayList<Word>();
 		Node n = find(prefix);
 		if (null != n) {
 			n.getPaths(prefix, result);

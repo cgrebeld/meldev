@@ -1,6 +1,9 @@
 package meldev.views;
 
 
+import meldev.util.TagReaderJob;
+import meldev.util.Trie;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -9,6 +12,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
 
 public class MelView extends ViewPart implements ISelectionListener {
 
@@ -19,10 +23,13 @@ public class MelView extends ViewPart implements ISelectionListener {
 
 	private TableViewer viewer;
 
+	private Trie tags;
+
 	/**
 	 * The constructor.
 	 */
 	public MelView() {
+		tags = new Trie();
 	}
 
 	/**
@@ -37,6 +44,11 @@ public class MelView extends ViewPart implements ISelectionListener {
 
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "meldev.viewer");
+		
+		// Load tags from disk
+		TagReaderJob job = new TagReaderJob(tags);
+		job.schedule();
+
 	}
 
 	/**

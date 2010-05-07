@@ -5,6 +5,7 @@ package meldev.preferences;
  */
 public class PreferenceConstants {
 
+	public static String P_TAGSFILE_PATH = "tagsFilePathPref";
 	public static String P_COMMANDPORT_PORT = "commandPortPortPref";
 	public static String P_COMMANDPORT_HOST = "commandPortHostPref";
 	public static String P_SYNTAXCOLOR_STRING = "syntaxColorStringPref";

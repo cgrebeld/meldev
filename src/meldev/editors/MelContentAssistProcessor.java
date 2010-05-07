@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import meldev.Activator;
 import meldev.util.Trie;
+import meldev.util.Trie.Word;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.text.BadLocationException;
@@ -43,7 +44,7 @@ public class MelContentAssistProcessor implements
 			String line = null;
 			while ((line = input.readLine()) != null) {
 				String cmd = line.substring(0,line.indexOf(" "));
-				fCommandTrie.addWord(cmd);
+				fCommandTrie.addWord(cmd, null);
 			}
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -76,9 +77,9 @@ public class MelContentAssistProcessor implements
 	}
 
 	private void getCommandProposals(String prefix, int offset, ArrayList<ICompletionProposal> proposals) {
-		ArrayList<String> completions = fCommandTrie.getCompletions(prefix);
-		for (String word : completions) {
-			proposals.add(new CompletionProposal(word, offset, prefix.length(),offset+word.length()));
+		ArrayList<Word> completions = fCommandTrie.getCompletions(prefix);
+		for (Word word : completions) {
+			proposals.add(new CompletionProposal(word.fWord, offset, prefix.length(),offset+word.fWord.length()));
 		}
 	}
 

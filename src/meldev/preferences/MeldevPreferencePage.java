@@ -56,6 +56,8 @@ public class MeldevPreferencePage
 				new IntegerFieldEditor(PreferenceConstants.P_COMMANDPORT_PORT, "Maya Command Port Number", getFieldEditorParent()));
 		addField(
 				new StringFieldEditor(PreferenceConstants.P_COMMANDPORT_HOST, "Maya Command Port Host", getFieldEditorParent()));
+		addField(
+				new FileFieldEditor(PreferenceConstants.P_TAGSFILE_PATH, "CTAGS File", getFieldEditorParent()));
 		
 	}
 

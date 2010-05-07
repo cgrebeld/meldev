@@ -9,6 +9,7 @@ public class MelTag implements Comparable<MelTag> {
 	public int length;
 	public String tag;
 	public Type type;
+	public String file;
 	public boolean isGlobal;
 	public String toString(){
 		return tag;
