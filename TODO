@@ -1,8 +1,6 @@
 
 proc/variable/command completion
- - use MelProjectFiles::get and scan each one for proc and variable defs.
-   - build a symbol table and extend HippieProposalProcessor to use it
- - read an optional ctags file for completion/colouring
+ - support tags with multiple definitions
 
 integrated quick-help  
 
@@ -11,7 +9,7 @@ browse functions from all buffers
  - could integrate into project explorer like java/pydev does -- but how?
  	- need to add IResource children to each IFile discovered by MelProjectFiles::get
 
-each scanner should be preference change listener
+scanner change should invalidate views
 
 code folding
 

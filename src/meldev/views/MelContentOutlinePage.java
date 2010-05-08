@@ -10,8 +10,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
@@ -98,7 +96,7 @@ public class MelContentOutlinePage extends ContentOutlinePage implements ITagsCh
 	public void createControl(Composite parent) {
 		super.createControl(parent);
 		TreeViewer viewer = getTreeViewer();
-		fTagsProvider = new MelDocumentTagsContentProvider(fDocumentProvider);
+		fTagsProvider = new MelDocumentTagsContentProvider(fDocumentProvider,fEditor);
 		fTagsProvider.addChangeListener(this);
 		viewer.setContentProvider(fTagsProvider);
 		viewer.setLabelProvider(new MelTagLabelProvider());

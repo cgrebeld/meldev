@@ -4,6 +4,7 @@
 package meldev.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -23,23 +24,23 @@ import org.eclipse.jface.preference.IPreferenceStore;
  */
 public class TagReaderJob extends Job {
 	private Trie fTags;
+	private File fTagsFile;
 
-	public TagReaderJob(Trie tags) {
-		super("Load Tags Job");
+	public TagReaderJob(Trie tags, File tagsfile) {
+		super("Loading Tags from disk job");
 		fTags = tags;
+		fTagsFile = tagsfile;
 	}
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		String tagsfile = store.getString(PreferenceConstants.P_TAGSFILE_PATH);
 		int count = 0;
 
 		try {
-			BufferedReader input = new BufferedReader(new FileReader(tagsfile));
+			BufferedReader input = new BufferedReader(new FileReader(fTagsFile));
 			String line = null;
 			final int totaltags = 36000;
-			monitor.beginTask("Reading Tags File " + tagsfile, totaltags);
+			monitor.beginTask("Reading from tags file " + fTagsFile.getAbsolutePath(), totaltags);
 			
 			while ((line = input.readLine()) != null) {
 				String[] lineParts = line.split("\t");
@@ -56,18 +57,18 @@ public class TagReaderJob extends Job {
 						monitor.worked(1);
 						++count; 
 						MelCTag tag = new MelCTag();
-						tag.file = file;
+						tag.file = file.replace("$TAGSRC/","");
 						tag.line = lineno;
 						tag.type = symbol.startsWith("$") ? MelCTag.Type.kVarDef : MelCTag.Type.kProcDef;
 						fTags.addWord(symbol, tag);
 					}
 				}
 			}
-			System.out.print("Read " + String.valueOf(count) + " tags");
+			System.out.print("Read " + String.valueOf(count) + " tags from file.\n");
 		} catch (FileNotFoundException e) {
-			return new Status(Status.ERROR, Activator.PLUGIN_ID, "Tags file " + tagsfile + " not found.");
+			return new Status(Status.ERROR, Activator.PLUGIN_ID, "Tags file " + fTagsFile.getAbsolutePath() + " not found.");
 		} catch (IOException e) {
-			return new Status(Status.ERROR, Activator.PLUGIN_ID, "Error while parsing Tags file " + tagsfile);
+			return new Status(Status.ERROR, Activator.PLUGIN_ID, "Error while parsing Tags file " + fTagsFile.getAbsolutePath());
 		} finally {
 			monitor.done();
 		}

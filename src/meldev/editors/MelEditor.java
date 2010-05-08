@@ -2,6 +2,7 @@ package meldev.editors;
 
 import meldev.Activator;
 import meldev.preferences.PreferenceConstants;
+import meldev.util.TagsFileManager;
 import meldev.views.MelContentOutlinePage;
 
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -14,6 +15,15 @@ public class MelEditor extends TextEditor {
 	private IPropertyChangeListener preferenceListener;
 	private MelSourceViewerConfiguration configuration;
 	private MelContentOutlinePage fOutlinePage;
+	static private TagsFileManager fTagsFileManager;
+	
+	static {
+		fTagsFileManager = new TagsFileManager();
+	}
+	
+	static public TagsFileManager getTagsFileManager() {
+		return fTagsFileManager;
+	}
 
 	public MelEditor() {
 		super();

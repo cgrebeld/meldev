@@ -58,7 +58,15 @@
          icon="icons/mel.png"
       menubarPath="additions" 
       class="meldev.views.EditorSendToMayaDelegate"> 
+      </action>
+	    	<action
+         		id="meldev.views.findDeclaration" 
+         label="Find Declaration"
+         icon="icons/mel.png"
+      menubarPath="additions" 
+      class="meldev.views.EditorFindDeclarationDelegate"> 
       </action> 
+ 
    </viewerContribution> 
 
    </extension>

@@ -37,4 +37,30 @@ public class MelProjectFiles {
 		}
 		return files;
 	}
+	
+	//! Find the given MEL file in open projects
+	public static IFile findFile(String pathSuffix) {
+		try {
+			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			ArrayList<IResource> reslist = new ArrayList<IResource>();
+			for(IResource res: projects) {
+				reslist.add(res);
+			}
+			for (int i=0; i < reslist.size(); ++i) {
+				IResource res = reslist.get(i);
+				if (res instanceof IContainer) {
+					for (IResource member : ((IContainer)res).members()) {
+						reslist.add(member);
+					}
+				} else if (res instanceof IFile) {
+					if (((IFile)res).getProjectRelativePath().toString().endsWith(pathSuffix)) {
+						return (IFile)res;
+					}
+				}
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

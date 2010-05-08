@@ -51,7 +51,7 @@ public class MelAutoEditStrategy extends DefaultIndentLineAutoEditStrategy {
 			}
 		}
 	}
-
+/*
 	private void moveCursorToOffset(IDocument d, int offset) {
 		IWorkbenchWindow window= PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IEditorReference editorReferences[]= window.getActivePage().getEditorReferences();
@@ -70,4 +70,5 @@ public class MelAutoEditStrategy extends DefaultIndentLineAutoEditStrategy {
 			}
 		}
 	}
+*/
 }

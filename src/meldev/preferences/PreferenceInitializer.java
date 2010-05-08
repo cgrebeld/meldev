@@ -49,5 +49,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(
 				PreferenceConstants.P_TAGSFILE_PATH,
 				"");
+		store.setDefault(
+				PreferenceConstants.P_TAGSFILE_ROOT,
+				"");
 	}
 }

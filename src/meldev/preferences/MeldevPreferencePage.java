@@ -58,7 +58,8 @@ public class MeldevPreferencePage
 				new StringFieldEditor(PreferenceConstants.P_COMMANDPORT_HOST, "Maya Command Port Host", getFieldEditorParent()));
 		addField(
 				new FileFieldEditor(PreferenceConstants.P_TAGSFILE_PATH, "CTAGS File", getFieldEditorParent()));
-		
+		addField(
+				new DirectoryFieldEditor(PreferenceConstants.P_TAGSFILE_ROOT, "CTAGS Root Folder", getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)

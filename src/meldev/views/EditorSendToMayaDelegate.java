@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
@@ -36,10 +37,10 @@ public class EditorSendToMayaDelegate extends ActionDelegate implements IEditorA
 		TextSelection sel = (TextSelection)fTargetEditor.getSelectionProvider().getSelection();
 		String cmd = sel.getText();
 		if (cmd.length() > 0) {
+			IPreferenceStore store = Activator.getDefault().getPreferenceStore();
+			int port = store.getInt(PreferenceConstants.P_COMMANDPORT_PORT);
+			String host = store.getString(PreferenceConstants.P_COMMANDPORT_HOST);
 			try {
-				IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-				int port = store.getInt(PreferenceConstants.P_COMMANDPORT_PORT);
-				String host = store.getString(PreferenceConstants.P_COMMANDPORT_HOST);
 				Socket sock = new Socket(host, port); 
 				sock.setSoTimeout(kSocketReadTimeoutMS);
 				BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
@@ -58,7 +59,10 @@ public class EditorSendToMayaDelegate extends ActionDelegate implements IEditorA
 				}
 				writer.close();
 				reader.close();
+			} catch (ConnectException e) {
+				System.err.print("Connection to " + host + ":" + port + " refused.\n");
 			} catch (IOException e) {
+				System.err.print("Error communicating with " + host + ":" + port + ":\n");
 				e.printStackTrace();
 			}
 		}

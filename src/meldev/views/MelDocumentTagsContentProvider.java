@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import meldev.editors.MelEditor;
 import meldev.editors.MelTag;
 
 import org.eclipse.core.runtime.ListenerList;
@@ -32,15 +33,31 @@ public class MelDocumentTagsContentProvider implements ITreeContentProvider {
 		protected ITypedRegion fNextChangeRegion;
 		private IDocumentProvider fDocumentProvider;
 		private ListenerList fChangeListeners = new ListenerList();
+		private MelEditor fEditor;
 		
+		static private ArrayList<MelDocumentTagsContentProvider> fProviderInstances;
+		static {
+			fProviderInstances = new ArrayList<MelDocumentTagsContentProvider>();
+		}
+		//! get the list of all instances of this class
+		static ArrayList<MelDocumentTagsContentProvider> getProviderInstances() {
+			return fProviderInstances;
+		}
+		
+		public MelEditor getEditor() {
+			return fEditor;
+		}
+
 		public interface ITagsChangeListener {
 			public void tagsChanged();
 		};
-		public MelDocumentTagsContentProvider(IDocumentProvider documentProvider) {
-			// TODO Auto-generated constructor stub
+		
+		public MelDocumentTagsContentProvider(IDocumentProvider documentProvider, MelEditor editor) {
 			super();
 			fDocumentProvider = documentProvider;
+			fEditor = editor;
 			fTags = new ArrayList<MelTag>();
+			fProviderInstances.add(this);
 		}
 		public void addChangeListener(ITagsChangeListener obj) {
 			fChangeListeners.add(obj);
@@ -67,6 +84,7 @@ public class MelDocumentTagsContentProvider implements ITreeContentProvider {
 				fDocument.removeDocumentListener(fDocListener);
 				fDocListener = null;
 			}
+			fProviderInstances.remove(this);
 		}
 		
 		@Override
