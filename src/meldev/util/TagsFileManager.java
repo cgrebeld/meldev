@@ -2,6 +2,7 @@ package meldev.util;
 
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -11,6 +12,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import meldev.Activator;
 import meldev.preferences.PreferenceConstants;
 import meldev.util.Trie.Node;
+import meldev.util.Trie.Word;
 
 //! Handles loading tags from disk and searching the same
 public class TagsFileManager {
@@ -56,5 +58,10 @@ public class TagsFileManager {
 			return tag;
 		}
 		return null;
+	}
+
+	//! Get all the completions for the given prefix
+	public ArrayList<Word> getCompletions(String prefix) {
+		return tags.getCompletions(prefix);
 	}
 }

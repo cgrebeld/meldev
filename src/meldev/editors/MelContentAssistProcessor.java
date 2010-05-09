@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import meldev.Activator;
+import meldev.util.TagsFileManager;
 import meldev.util.Trie;
 import meldev.util.Trie.Word;
 
@@ -27,14 +28,20 @@ public class MelContentAssistProcessor implements
 	private static final IContextInformation[] NO_CONTEXTS= new IContextInformation[0];
 	private static final ICompletionProposal[] NO_PROPOSALS= new ICompletionProposal[0];
 	
-	private HippieProposalProcessor fHippieProcessor;
-	private Trie fCommandTrie;
+	private static HippieProposalProcessor fHippieProcessor;
+	private static Trie fCommandTrie;
 	
-	public MelContentAssistProcessor() {
+	static {
 		fHippieProcessor = new HippieProposalProcessor();
-
 		fCommandTrie = new Trie();
-		
+		loadCommandList();
+	}
+	
+	
+	public MelContentAssistProcessor() { }
+	
+	
+	private static void loadCommandList() {
 		// read in the known commands and insert into the trie
 		try {
 			File f = new File(FileLocator.toFileURL(
@@ -78,6 +85,12 @@ public class MelContentAssistProcessor implements
 
 	private void getCommandProposals(String prefix, int offset, ArrayList<ICompletionProposal> proposals) {
 		ArrayList<Word> completions = fCommandTrie.getCompletions(prefix);
+		
+		// add in ctags completions
+		if (MelEditor.getTagsFileManager().hasTags()) {
+			ArrayList<Word> tagscompletions = MelEditor.getTagsFileManager().getCompletions(prefix);
+			// merge into completions
+		}
 		for (Word word : completions) {
 			proposals.add(new CompletionProposal(word.fWord, offset, prefix.length(),offset+word.fWord.length()));
 		}
