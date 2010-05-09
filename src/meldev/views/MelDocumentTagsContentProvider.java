@@ -155,7 +155,8 @@ public class MelDocumentTagsContentProvider implements ITreeContentProvider {
 				if (region.getType().equals(IDocument.DEFAULT_CONTENT_TYPE)) {
 					try {
 						mel = document.get(region.getOffset(), region.getLength());
-						
+						if (mel.length() == 0)
+							continue;
 						// find procedure definitions
 						Matcher matcher = fProcPat.matcher(mel.subSequence(0,
 								mel.length() - 1));

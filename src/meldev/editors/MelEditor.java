@@ -8,6 +8,7 @@ import meldev.views.MelContentOutlinePage;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 public class MelEditor extends TextEditor {

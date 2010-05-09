@@ -3,11 +3,13 @@ MEL code.
 
 FEATURES
 
-- Syntax highlighting based on static list of mel commands
-- auto-edit: autoindent on open brace CR
-- naive completion based on open buffers
+- Syntax highlighting of keywords and commands
+- auto-edit: auto indent new block
+- auto-completion based on open buffers and optional ctags file
 - 'send to maya' context menu item: over (TCP) commandPort
 - Outline view of proc and variable definitions
+- 'Jump to definition' context menu item to find procs/keywords based
+  on open buffers or ctags file
 
 INSTALLING
 
@@ -23,5 +25,5 @@ This will build the plugin and copy it somewhere for you.
 
 KNOWN BUGS
  
-syntax-highlighting: partial highlighting is happening
+syntax-highlighting: partial highlighting
 
