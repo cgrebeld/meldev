@@ -76,6 +76,7 @@ public class MelContentAssistProcessor implements
 			prefix = getPrefix(viewer, offset);
 			if (prefix == null || prefix.length() == 0)
 				return NO_PROPOSALS;
+			getTagsProposals(prefix, offset - prefix.length(), allprops);
 			getCommandProposals(prefix, offset - prefix.length(), allprops);
 		} catch (BadLocationException e) {
 			return NO_PROPOSALS;
@@ -83,14 +84,21 @@ public class MelContentAssistProcessor implements
 		return allprops.toArray(proposals);
 	}
 
-	private void getCommandProposals(String prefix, int offset, ArrayList<ICompletionProposal> proposals) {
-		ArrayList<Word> completions = fCommandTrie.getCompletions(prefix);
-		
-		// add in ctags completions
+	//! get proposals based on the tags file
+	private void getTagsProposals(String prefix, int offset, ArrayList<ICompletionProposal> proposals) {
+		// add in ctags completions if we have them
 		if (MelEditor.getTagsFileManager().hasTags()) {
 			ArrayList<Word> tagscompletions = MelEditor.getTagsFileManager().getCompletions(prefix);
-			// merge into completions
+			for (Word word : tagscompletions) {
+				proposals.add(new CompletionProposal(word.fWord, offset, prefix.length(),offset+word.fWord.length()));
+			}
 		}
+	}
+	
+	//! get proposals based on maya command list
+	private void getCommandProposals(String prefix, int offset, ArrayList<ICompletionProposal> proposals) {
+		// add in command completions
+		ArrayList<Word> completions = fCommandTrie.getCompletions(prefix);
 		for (Word word : completions) {
 			proposals.add(new CompletionProposal(word.fWord, offset, prefix.length(),offset+word.fWord.length()));
 		}

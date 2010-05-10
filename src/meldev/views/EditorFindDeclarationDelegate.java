@@ -12,6 +12,9 @@ import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
@@ -50,8 +53,9 @@ public class EditorFindDeclarationDelegate extends ActionDelegate implements IEd
 			if (MelEditor.getTagsFileManager().hasTags()) {
 				MelCTag tag = MelEditor.getTagsFileManager().find(symbol);
 				if (tag != null) {
-					//System.out.print("Found tag: " + tag.file + ":" +tag.line.toString() + "\n");
+					System.out.print("Found tag: " + tag.file + ":" +tag.line.toString() + "\n");
 					IFile file = MelProjectFiles.findFile(tag.file);
+					IEditorPart newPart = null;
 					if (file == null || ! file.isAccessible()) {
 						// Hmm, not in an open project.  Try opening from filesystem
 						String prefix = Activator.getDefault().getPreferenceStore().
@@ -60,21 +64,35 @@ public class EditorFindDeclarationDelegate extends ActionDelegate implements IEd
 						if (extFile.canRead()) {
 							IFileStore fileStore = EFS.getLocalFileSystem().getStore(extFile.toURI());
 							try {
-								IDE.openEditorOnFileStore( page, fileStore );
-								foundIt = true;
+								newPart = IDE.openEditorOnFileStore( page, fileStore );
 							} catch ( PartInitException e ) {
 								e.printStackTrace();
 							}
 						} else {
 							// couldn't resolve file suffix to real file
-							System.out.print("Couldn't open " + tag.file + "\n");
+							System.out.print("Couldn't open " + extFile.getAbsolutePath() + "\n");
 						}
 					} else {
 						try {
-							IDE.openEditor(page, file);
-							foundIt = true;
+							newPart = IDE.openEditor(page, file);
 						} catch (PartInitException e) {
 							e.printStackTrace();
+						}
+					}
+					if (null != newPart && newPart instanceof MelEditor) {
+						int offset, len;
+						MelEditor newEd = (MelEditor)newPart;
+						IDocument doc = newEd.getDocumentProvider().getDocument(newEd.getEditorInput());
+						if (doc != null) {
+							try {
+								IRegion info = doc.getLineInformation(tag.line);
+								offset = info.getOffset();
+								len = info.getLength();
+								newEd.setHighlightRange(offset, len, true);
+								foundIt = true;
+							} catch (BadLocationException e) {
+								System.err.print("Your tags file seems incorrect!");
+							}
 						}
 					}
 				}
